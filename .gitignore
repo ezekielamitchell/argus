@@ -1,0 +1,426 @@
+# ============================================================
+# .gitignore — ARGUS
+# Adaptive Reconnaissance and Gaze Understanding System
+#
+# Polyglot research repo: Python (primary) + ML/CV artifacts,
+# optional native C/C++/CUDA extensions, and a JS/TS dashboard.
+# Large data (recordings, frames, weights) is managed out-of-band
+# (DVC / git-LFS / object storage), never committed to git.
+# Keep-exceptions for sample data and fixtures live at the bottom.
+# ============================================================
+
+# ------------------------------------------------------------
+# Secrets & environment
+# Never commit real credentials. Keep a committed *.example template.
+# ------------------------------------------------------------
+.env
+.env.*
+!.env.example
+.envrc
+.direnv/
+secrets.yaml
+secrets.yml
+credentials.json
+*.pem
+id_rsa
+id_dsa
+id_ecdsa
+id_ed25519
+*_rsa
+*_ed25519
+*_ecdsa
+.aws/
+gha-creds-*.json
+
+# ------------------------------------------------------------
+# Python
+# ------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Distribution / packaging
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+.python-version
+
+# Test / coverage / linters / type-checkers
+.pytest_cache/
+.tox/
+.nox/
+.cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+cover/
+*.cover
+*.py,cover
+nosetests.xml
+.hypothesis/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.ruff_cache/
+.pyre/
+.pytype/
+
+# Package managers (PDM/PEP 582). Commit poetry.lock / Pipfile.lock /
+# uv.lock instead of ignoring them.
+__pypackages__/
+.pdm-python
+.pdm-build/
+
+# Cython / Celery
+cython_debug/
+celerybeat-schedule
+celerybeat.pid
+
+# ------------------------------------------------------------
+# Jupyter / IPython
+# ------------------------------------------------------------
+.ipynb_checkpoints/
+profile_default/
+ipython_config.py
+
+# ------------------------------------------------------------
+# Models & serialized weights
+# Large trained artifacts; track via DVC / a model registry, not git.
+# ------------------------------------------------------------
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.pb
+*.h5
+*.hdf5
+*.tflite
+*.safetensors
+*.pkl
+*.pickle
+*.caffemodel
+*.params
+*.mlmodel
+*.mlpackage
+checkpoints/
+saved_models/
+
+# TensorRT / deployment engines (hardware-specific, regenerable)
+*.engine
+*.plan
+*.trt
+
+# ------------------------------------------------------------
+# Experiment tracking & run logs
+# ------------------------------------------------------------
+wandb/
+mlruns/
+.mlflow/
+mlflow.db
+dvclive/
+.neptune/
+aim/
+.aim/
+lightning_logs/
+runs/
+tb_logs/
+events.out.tfevents.*
+outputs/
+multirun/
+.hydra/
+ray_results/
+catboost_info/
+
+# DVC: ignore local cache/tmp, keep .dvc/config and *.dvc pointer files.
+/.dvc/cache
+/.dvc/tmp
+/.dvc/config.local
+
+# ------------------------------------------------------------
+# Datasets, media & large artifacts (CASEset streams, captures)
+#
+# The ENTIRE data/ tree is local-only. CASEset recordings — webcam frames,
+# screenshots, gaze, interaction logs, manifests — live under
+# data/caseset/sessions/... and must NEVER be committed (see docs/ETHICS.md,
+# docs/DATASET.md). Only the folder's own README and .gitkeep are tracked.
+# This is enforced regardless of file extension, which is why we do NOT rely
+# on the per-extension media rules below for anything under data/.
+# To share a small, reviewed, de-identified sample, force-add the specific
+# file explicitly:  git add -f data/sample/<file>
+# ------------------------------------------------------------
+/data/**
+!/data/README.md
+!/data/.gitkeep
+
+# Generic capture/derived-artifact dirs anywhere else in the tree
+recordings/
+frames/
+
+# Arrays / columnar / record stores
+*.npy
+*.npz
+*.tfrecord
+*.lmdb
+*.mdb
+*.parquet
+*.feather
+*.arrow
+
+# Video & raw sensor captures
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.webm
+*.m4v
+*.mpg
+*.mpeg
+*.h264
+*.h265
+*.yuv
+*.raw
+
+# Archives (datasets often arrive compressed)
+*.tar
+*.tar.gz
+*.tgz
+*.zip
+*.7z
+*.rar
+
+# ------------------------------------------------------------
+# Profiling & tracing (Python + CUDA / Nsight)
+# ------------------------------------------------------------
+*.prof
+*.pstats
+*.lprof
+*.nvvp
+*.nvprof
+*.nsys-rep
+*.qdrep
+
+# ------------------------------------------------------------
+# Native: C / C++ / CUDA
+# NOTE: *.mk, *.i (SWIG), and lib/ are intentionally NOT ignored —
+# they are usually hand-written source in a native build.
+# ------------------------------------------------------------
+*.o
+*.obj
+*.a
+*.lib
+*.so.*
+*.dylib
+*.dll
+*.exe
+*.lo
+*.la
+*.slo
+*.ko
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+CTestTestfile.cmake
+CMakeUserPresets.json
+install_manifest.txt
+_build/
+
+# Autotools (generated)
+config.log
+config.status
+
+# CUDA intermediates
+*.fatbin
+*.cubin
+*.gpu
+*.cudafe1.*
+*.module_id
+
+# Debug symbols & crash dumps
+*.dSYM/
+*.pdb
+*.idb
+*.ilk
+*.su
+*.gcno
+*.gcda
+# Match PID-suffixed dumps only (core.1234) so source files such as
+# core.cpp / core.py are NOT ignored.
+core.[0-9]*
+vgcore.*
+*.stackdump
+
+# Bazel
+bazel-*
+
+# compile_commands.json: ignored by default. If the team commits it for
+# clangd/IDE tooling, remove this line.
+compile_commands.json
+
+# ------------------------------------------------------------
+# JavaScript / TypeScript (operator dashboard)
+# ------------------------------------------------------------
+node_modules/
+.next/
+out/
+.nuxt/
+.svelte-kit/
+.vite/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.eslintcache
+.parcel-cache
+.turbo
+coverage/
+*.lcov
+.env.local
+.env.*.local
+.pnpm-store/
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+*.tsbuildinfo
+
+# Front-end test / story artifacts
+storybook-static/
+playwright-report/
+test-results/
+cypress/videos/
+cypress/screenshots/
+
+# ------------------------------------------------------------
+# Containers & infrastructure
+# .dockerignore and *.lock.hcl stay tracked.
+# ------------------------------------------------------------
+docker-compose.override.yml
+docker-compose.override.yaml
+compose.override.yml
+compose.override.yaml
+.terraform/
+*.tfstate
+*.tfstate.*
+
+# ------------------------------------------------------------
+# Operating system files
+# ------------------------------------------------------------
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# Linux
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# ------------------------------------------------------------
+# Editors & IDEs
+# ------------------------------------------------------------
+# VS Code: ignore everything except shared workspace config
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/
+*.code-workspace
+
+# JetBrains / PyCharm
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Vim
+*.swp
+*.swo
+*.swn
+Session.vim
+.netrwhist
+
+# Emacs
+\#*\#
+.\#*
+
+# Sublime Text
+*.sublime-workspace
+
+# ------------------------------------------------------------
+# Logs, temp & backups
+# ------------------------------------------------------------
+*.log
+logs/
+tmp/
+*.tmp
+*~
+*.bak
+*.orig
+*.old
+
+# ------------------------------------------------------------
+# Keep-exceptions
+# Re-include small, intentionally-committed artifacts that the broad rules
+# above would otherwise ignore. NOTE: there is deliberately NO blanket
+# re-include for data/ (e.g. !data/sample/**). Everything under data/ is PII
+# by default; committing a sample must be a conscious, per-file `git add -f`
+# so reviewed-and-de-identified is the only way data leaves a machine.
+# ------------------------------------------------------------
+!**/.gitkeep
+!tests/**/fixtures/**
+!tests/**/*.npy
+!tests/**/*.npz
